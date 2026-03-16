@@ -170,7 +170,10 @@ def handle_msg(event):
     user_message = event.message.text  # 取得使用者發送的文字
     user_id = event.source.user_id
     if get_user_info(user_id) is None:
-        flex_message = json.load(open(os.path.join(BASE_DIR, 'chatbot', 'reply_year_option.json'), 'r', encoding='utf-8'))
+        flex_message = json.load(
+            open(os.path.join(
+            BASE_DIR, 'chatbot', 'reply_year_option.json'),
+             'r', encoding='utf-8'))
         message = FlexSendMessage(
                             alt_text=f"請選擇系級",
                             contents=flex_message
@@ -178,7 +181,7 @@ def handle_msg(event):
         line_bot_api.reply_message(
                     event.reply_token,
                     message)
-    
+        return
     filtered_teacher = Course.objects.filter(teacher_name=user_message)
     filtered_course = Course.objects.filter(course_name=user_message)
     filtered_course_alias = CourseAlias.objects.filter(alias=user_message)
