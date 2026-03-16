@@ -60,7 +60,6 @@ def course_feedback(request):
     }
     return render(request, 'course_feedback.html', context)
 
-
 def dynamic_flex_message_package(title_name, candidate_list, label_type):
     # 引入 JSON 檔案
     json_path = os.path.join(BASE_DIR, 'chatbot', 'reply_course_teacher_list.json')
@@ -122,6 +121,30 @@ def flex_message_package(course_info):
 
     return flex
 
+def get_line_display_name(user_id):
+    try:
+        profile = line_bot_api.get_profile(user_id)
+        display_name = profile.display_name
+        print(type(profile))
+        return display_name
+    except LineBotApiError as e:
+        print(f"Error fetching user profile: {e}")
+        return "匿名"
+
+def get_user_info(user_id):
+    try:
+        user_info = UserInfo.objects.get(user_id=user_id)
+        return user_info
+    except UserInfo.DoesNotExist:
+        return None
+    
+def register_user_info(user_id, display_name):
+    user_info, created = UserInfo.objects.get_or_create(
+        user_id=user_id, 
+        defaults={'display_name': display_name})
+    if not created:
+        user_info.display_name = display_name
+        user_info.save()
 
 @csrf_exempt
 def callback(request):
@@ -146,6 +169,16 @@ def callback(request):
 def handle_msg(event):    
     user_message = event.message.text  # 取得使用者發送的文字
     user_id = event.source.user_id
+    if get_user_info(user_id) is None:
+        flex_message = json.load(open(os.path.join(BASE_DIR, 'chatbot', 'reply_year_option.json'), 'r', encoding='utf-8'))
+        message = FlexSendMessage(
+                            alt_text=f"請選擇系級",
+                            contents=flex_message
+                        )
+        line_bot_api.reply_message(
+                    event.reply_token,
+                    message)
+    
     filtered_teacher = Course.objects.filter(teacher_name=user_message)
     filtered_course = Course.objects.filter(course_name=user_message)
     filtered_course_alias = CourseAlias.objects.filter(alias=user_message)
@@ -268,5 +301,17 @@ def handle_postback(event):
             )         
         else:
             print("Empty")
+    elif "year_" in postback_data:
+        year = postback_data.split("_")[1]
+        display_name = get_line_display_name(user_id)
+        register_user_info(user_id, display_name)
+        user_info = get_user_info(user_id)
+        user_info.year = year
+        user_info.save()
+        message = TextSendMessage(text=f"嗨！{year}級的同學，現在可以開始搜尋課程或老師了！或是查看圖文選單可以查看更多規則~")
+        line_bot_api.reply_message(
+            event.reply_token,
+            message
+        )
     else:
         print("Empty")

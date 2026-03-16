@@ -1,0 +1,143 @@
+{
+  "type": "bubble",
+  "size": "mega",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "baseline",
+        "contents": [
+          {
+            "type": "text",
+            "text": "就差一步了！",
+            "size": "lg",
+            "weight": "bold",
+            "align": "center"
+          }
+        ],
+        "paddingAll": "none",
+        "paddingTop": "none",
+        "paddingStart": "none",
+        "paddingEnd": "none",
+        "paddingBottom": "none",
+        "backgroundColor": "#f7f6ee"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "為了改善使用體驗，請選擇您的系級：",
+            "size": "15px",
+            "color": "#66665F",
+            "align": "center"
+          },
+          {
+            "type": "text",
+            "text": "(系級=入學年度+4)",
+            "size": "15px",
+            "color": "#66665F",
+            "align": "center"
+          }
+        ],
+        "margin": "none",
+        "paddingTop": "md",
+        "paddingBottom": "md"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "height": "sm",
+            "action": {
+              "type": "postback",
+              "label": "120級",
+              "data": "120"
+            },
+            "color": "#5B5B5B",
+            "style": "primary"
+          }
+        ],
+        "margin": "md",
+        "borderWidth": "medium",
+        "cornerRadius": "xxl"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "style": "secondary",
+            "height": "sm",
+            "action": {
+              "type": "postback",
+              "label": "119級",
+              "data": "119"
+            },
+            "color": "#E0E0E0"
+          }
+        ],
+        "margin": "md",
+        "borderWidth": "medium",
+        "cornerRadius": "xxl",
+        "backgroundColor": "#3C3C3C"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "style": "primary",
+            "height": "sm",
+            "action": {
+              "type": "postback",
+              "label": "118級",
+              "data": "118"
+            },
+            "color": "#5B5B5B"
+          }
+        ],
+        "margin": "md",
+        "borderWidth": "medium",
+        "cornerRadius": "xxl"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "style": "secondary",
+            "action": {
+              "type": "postback",
+              "label": "117級",
+              "data": "117"
+            },
+            "color": "#E0E0E0",
+            "offsetTop": "none",
+            "height": "sm"
+          }
+        ],
+        "margin": "md",
+        "borderWidth": "medium",
+        "cornerRadius": "xxl",
+        "backgroundColor": "#3C3C3C"
+      }
+    ],
+    "paddingTop": "lg",
+    "paddingBottom": "xl",
+    "backgroundColor": "#f7f6ee"
+  },
+  "styles": {
+    "footer": {
+      "separator": false
+    }
+  }
+}
