@@ -147,3 +147,5 @@ if _secure_proxy_ssl_header:
     SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE")
     CSRF_COOKIE_SECURE = os.getenv("CSRF_COOKIE_SECURE")
     SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT")
+
+CUSTOM_RICH_MENU_ID = os.getenv("CUSTOM_RICH_MENU_ID")

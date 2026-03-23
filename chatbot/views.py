@@ -16,6 +16,7 @@ from pathlib import Path
 import os
 from django.core.paginator import Paginator
 from django.shortcuts import render
+from datetime import datetime
 
 parser = WebhookHandler(settings.LINE_CHANNEL_SECRET)
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
@@ -80,14 +81,14 @@ def dynamic_flex_message_package(title_name, candidate_list, label_type):
             'spacing': 'none',
             'contents': [{
                 'type': 'button',
-                'style': 'primary',
+                'style': 'secondary',
                 'action': {
                     'type': 'postback',
                     'label': name,
                     # 注意這裡的 data 格式，根據傳入的參數動態生成資料
                     'data': f"{name}-{title_name}" if label_type == "teacher" else f"{title_name}-{name}" 
                 },
-                'color': colors[i-1],
+                'color': "#FFFFFF",
                 'margin': 'xs',
                 'offsetTop': 'none',
                 'height': 'sm'
@@ -97,7 +98,7 @@ def dynamic_flex_message_package(title_name, candidate_list, label_type):
             'cornerRadius': 'xxl',
             'offsetTop': 'none',
             'margin': 'md',
-            'backgroundColor': colors[i-1]
+            'backgroundColor': "#FFFFFF"
         }
         flex['body']['contents'].append(button)
     return flex
@@ -146,6 +147,20 @@ def register_user_info(user_id, display_name):
         user_info.display_name = display_name
         user_info.save()
 
+def send_custom_rich_menu(user_info):
+    # 處理判斷使用者現在年級
+    # 西元轉民國
+    current_year = datetime.now().year - 1911
+    user_year = int(user_info.year)
+    # 使用者不是大一，就變更圖文選單
+    # 如 118 級同學在民國 115 年是大二生
+    # 118 - 115 = 3，不是 4 就變更圖文選單
+    if current_year - user_year != 4:
+        if line_bot_api.get_rich_menu_id_of_user(user_info.user_id) != settings.CUSTOM_RICH_MENU_ID:
+            line_bot_api.link_rich_menu_to_user(
+                user_info.user_id, 
+                settings.CUSTOM_RICH_MENU_ID)
+
 @csrf_exempt
 def callback(request):
     # 確認請求是來自 LINE 的 webhook
@@ -178,7 +193,11 @@ def handle_msg(event):
         line_bot_api.reply_message(
                     event.reply_token,
                     message)
-    
+        return
+    # 使用者已回答年級問題，判斷是否為大一生
+    else:
+        user_info = get_user_info(user_id)
+        send_custom_rich_menu(user_info)
     filtered_teacher = Course.objects.filter(teacher_name=user_message)
     filtered_course = Course.objects.filter(course_name=user_message)
     filtered_course_alias = CourseAlias.objects.filter(alias=user_message)
@@ -199,6 +218,7 @@ def handle_msg(event):
                             alt_text=f"{teacher_name} 老師的課程",
                             contents=flex_message
                         )
+        print(flex_message)
         line_bot_api.reply_message(
                     event.reply_token,
                     message)

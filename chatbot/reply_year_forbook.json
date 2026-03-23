@@ -14,7 +14,8 @@
             "text": "就差一步了！",
             "size": "lg",
             "weight": "bold",
-            "align": "center"
+            "align": "center",
+            "color": "#FFFFFF"
           }
         ],
         "paddingAll": "none",
@@ -22,7 +23,7 @@
         "paddingStart": "none",
         "paddingEnd": "none",
         "paddingBottom": "none",
-        "backgroundColor": "#f7f6ee"
+        "backgroundColor": "#66665F"
       },
       {
         "type": "box",
@@ -32,15 +33,17 @@
             "type": "text",
             "text": "為了改善使用體驗，請選擇您的系級：",
             "size": "15px",
-            "color": "#66665F",
-            "align": "center"
+            "color": "#FFFFFF",
+            "align": "center",
+            "weight": "bold"
           },
           {
             "type": "text",
             "text": "(系級=入學年度+4)",
             "size": "15px",
-            "color": "#66665F",
-            "align": "center"
+            "color": "#FFFFFF",
+            "align": "center",
+            "weight": "bold"
           }
         ],
         "margin": "none",
@@ -57,15 +60,16 @@
             "action": {
               "type": "postback",
               "label": "120級",
-              "data": "120"
+              "data": "year_120"
             },
-            "color": "#5B5B5B",
-            "style": "primary"
+            "color": "#FFFFFF",
+            "style": "secondary"
           }
         ],
         "margin": "md",
         "borderWidth": "medium",
-        "cornerRadius": "xxl"
+        "cornerRadius": "xxl",
+        "backgroundColor": "#FFFFFF"
       },
       {
         "type": "box",
@@ -78,15 +82,15 @@
             "action": {
               "type": "postback",
               "label": "119級",
-              "data": "119"
+              "data": "year_119"
             },
-            "color": "#E0E0E0"
+            "color": "#FFFFFF"
           }
         ],
         "margin": "md",
         "borderWidth": "medium",
         "cornerRadius": "xxl",
-        "backgroundColor": "#3C3C3C"
+        "backgroundColor": "#FFFFFF"
       },
       {
         "type": "box",
@@ -94,19 +98,20 @@
         "contents": [
           {
             "type": "button",
-            "style": "primary",
+            "style": "secondary",
             "height": "sm",
             "action": {
               "type": "postback",
               "label": "118級",
-              "data": "118"
+              "data": "year_118"
             },
-            "color": "#5B5B5B"
+            "color": "#FFFFFF"
           }
         ],
         "margin": "md",
         "borderWidth": "medium",
-        "cornerRadius": "xxl"
+        "cornerRadius": "xxl",
+        "backgroundColor": "#FFFFFF"
       },
       {
         "type": "box",
@@ -118,9 +123,9 @@
             "action": {
               "type": "postback",
               "label": "117級",
-              "data": "117"
+              "data": "year_117"
             },
-            "color": "#E0E0E0",
+            "color": "#FFFFFF",
             "offsetTop": "none",
             "height": "sm"
           }
@@ -128,12 +133,12 @@
         "margin": "md",
         "borderWidth": "medium",
         "cornerRadius": "xxl",
-        "backgroundColor": "#3C3C3C"
+        "backgroundColor": "#FFFFFF"
       }
     ],
     "paddingTop": "lg",
     "paddingBottom": "xl",
-    "backgroundColor": "#f7f6ee"
+    "backgroundColor": "#66665F"
   },
   "styles": {
     "footer": {
