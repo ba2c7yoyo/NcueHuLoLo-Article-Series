@@ -148,19 +148,23 @@ def register_user_info(user_id, display_name):
         user_info.save()
 
 def send_custom_rich_menu(user_info):
-    # 處理判斷使用者現在年級
-    # 西元轉民國
     current_year = datetime.now().year - 1911
     user_year = int(user_info.year)
-    # 使用者不是大一，就變更圖文選單
-    # 如 118 級同學在民國 115 年是大二生
-    # 118 - 115 = 3，不是 4 就變更圖文選單
-    if current_year - user_year != 4:
-        if line_bot_api.get_rich_menu_id_of_user(user_info.user_id) != settings.CUSTOM_RICH_MENU_ID:
-            line_bot_api.link_rich_menu_to_user(
+    if user_year - current_year == 4:
+        print("大一生，維持預設圖文選單")
+    else:
+        try:
+            if line_bot_api.get_rich_menu_id_of_user(user_info.user_id) != settings.SENIOR_RICH_MENU_ID:
+                line_bot_api.link_rich_menu_to_user(
                 user_info.user_id, 
-                settings.CUSTOM_RICH_MENU_ID)
-
+                settings.SENIOR_RICH_MENU_ID)
+                print("非大一生，已更換成 Senior 圖文選單")
+            else:
+                print("非大一生，已經是 Senior 圖文選單，不更換")
+        except:
+            line_bot_api.link_rich_menu_to_user(
+            user_info.user_id, 
+            settings.DEFAULT_FIRST_PAGE_RICH_MENU_ID)
 @csrf_exempt
 def callback(request):
     # 確認請求是來自 LINE 的 webhook
@@ -221,7 +225,7 @@ def handle_msg(event):
                             alt_text=f"{teacher_name} 老師的課程",
                             contents=flex_message
                         )
-        print(flex_message)
+        # print(flex_message)
         line_bot_api.reply_message(
                     event.reply_token,
                     message)

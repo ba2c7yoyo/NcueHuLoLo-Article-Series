@@ -64,11 +64,11 @@ class Course(models.Model):
     
 class UserInfo(models.Model):
     user_id = models.CharField(
-        unique=True, max_length=32, verbose_name="User ID")
+        unique=True, max_length=33, verbose_name="User ID")
     display_name = models.CharField(
         max_length=20, verbose_name="LINE 顯示名稱")
     year = models.CharField(
-        max_length=4, verbose_name="年級")
+        max_length=4, verbose_name="系級")
     join_date = models.DateTimeField(
         auto_now=True, verbose_name="加入日期")
     
